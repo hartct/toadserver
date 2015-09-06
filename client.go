@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	cclient "github.com/eris-ltd/toadserver/Godeps/_workspace/src/github.com/tendermint/tendermint/rpc/core_client"
 )
@@ -49,7 +50,7 @@ func getInfos(fileName string) string {
 			res[i] = n.Entry.Name
 			i += 1
 		}
-		result := string.Join(res, "\n")
+		result := strings.Join(res, "\n")
 		return result
 	} else {
 		hash, err := cl.GetName(fileName)
