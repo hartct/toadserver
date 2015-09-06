@@ -14,7 +14,7 @@ func postHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		//TODO get amt from url
 		str := r.URL.Path[1:]
-		fn := strings.Split(str, "/")[0]
+		fn := strings.Split(str, "/")[1]
 
 		body := r.Body
 		b, err := ioutil.ReadAll(body)
