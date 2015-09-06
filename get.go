@@ -14,11 +14,12 @@ import (
 func getHandler(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		//take filename & send ask chain for hash
-		str := r.URL.Path[1:]
 
+		str := r.URL.Path[1:]
 		fn := strings.Split(str, "/")
 		hash := getInfos(fn[1])
-
+fmt.Printf("hash %v\n", hash)
+	
 		err := ipfs.GetFromIPFS(hash, fn[1], "", bytes.NewBuffer([]byte{}))
 		if err != nil {
 			fmt.Printf("error getting file from IPFS: %v\n", err)
