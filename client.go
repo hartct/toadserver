@@ -44,14 +44,18 @@ func getInfos(fileName string) string {
 		//to eventually support an endpoint that lists available files
 		names, err := cl.ListNames()
 		ifExit(err)
-		res := make([]string, len(names.Names))
-		i := 0
-		for n := range names.Names {
-			res[i] = n.Entry.Name
-			i += 1
-		}
-		result := strings.Join(res, "\n")
-		return result
+		fmt.Printf("names: %v\n", names)
+		/*
+			res := make([]string, len(names.Names))
+			i := 0
+			for n := range names.Names {
+				res[i] = n.Entry.Name
+				i += 1
+			}
+			result := strings.Join(res, "\n")
+			return result
+		*/
+		return ""
 	} else {
 		hash, err := cl.GetName(fileName)
 		ifExit(err)
