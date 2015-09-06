@@ -17,7 +17,7 @@ var (
 	DefaultChainID string
 
 	REQUEST_TYPE = "JSONRPC"
-	client      cclient.Client
+	client       cclient.Client
 )
 
 // override the hardcoded defaults with env variables if they're set
@@ -26,7 +26,6 @@ func init() {
 	if nodeAddr != "" {
 		DefaultNodeRPCAddr = nodeAddr
 	}
-	
 
 	chainID := os.Getenv("MINTX_CHAINID")
 	if chainID != "" {
@@ -40,16 +39,21 @@ func getInfos(fileName string) string {
 		DefaultNodeRPCAddr = nodeAddr
 	}
 	cl := cclient.NewClient(nodeAddr, "HTTP")
-	if fileName == "" {
+	if fileName == "ls" {
 		//to eventually support an endpoint that lists available files
-		_, err := cl.ListNames()
+		names, err := cl.ListNames()
 		ifExit(err)
-		//formatOutput(r)
-		return "" //result of format output
+		res := make([]string, len(names.Names))
+		i := 0
+		for n := range names.Names {
+			res[i] = n.Entry.Name
+			i += 1
+		}
+		result := string.Join(res, "\n")
+		return result
 	} else {
 		hash, err := cl.GetName(fileName)
 		ifExit(err)
-		//formatOutput(r)
 		return hash.Entry.Data
 	}
 }
