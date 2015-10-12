@@ -39,6 +39,16 @@ TODO
 -> adding validators -> existing validator sends coins to new user, who can now POST/GET with whatever perms they are given.
 -> describe read/write-ability
 
+##Setup as a service
+Some work has been done to prepare toadserver to run as a service. Assuming that the toadserver docker image is available on quay.io, the following steps should work to run the server as a service:
+- 1) Run `eris files put toadserver.toml` and make a note of the file hash
+- 2) Run `eris services import toadserver <filehash>` where filehash is from step 1
+- 3) Run `eris services start toadserver`
+ 
+ There are a couple known issues with the service approach:
+ - 1) Environment variables MINTX_PUBKEY and MINTX_NODE_ADDR need to be set for toadserver to work correctly. Currently the only way to do this is to modify the start script and export the variables. Since these variables are different based on each installation, they are not set in the start.sh file in the code repo.
+ - 2) The service does not stop correctly when using `eris service stop toadserver`. After running the eris service stop command, run `docker ps`, find the container ID for toadserver, and run `docker stop <toadserver container>`.
+
 ##Other use cases
 - simple, scalable content hosting
 - science publishing
